@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Najaf Hub | Admin Access</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    
+    <style>
+        :root { --main: #ff2d55; --bg: #f8f9fa; --dark-overlay: rgba(0, 0, 0, 0.75); }
+        
+        body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg); margin: 0; }
+
+        /* --- تصميم صفحة الدخول الفخمة --- */
+        #loginScreen {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: url('https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2069&auto=format&fit=crop') no-repeat center center;
+            background-size: cover;
+            position: relative;
+        }
+
+        #loginScreen::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: var(--dark-overlay);
+            backdrop-filter: blur(10px);
+        }
+
+        .login-card {
+            position: relative;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(25px);
+            padding: 50px 40px;
+            border-radius: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.4);
+            width: 100%;
+            max-width: 420px;
+            z-index: 10;
+            text-align: center;
+            color: white;
+        }
+
+        .brand-logo { font-size: 2.8rem; font-weight: 900; color: var(--main); margin-bottom: 10px; letter-spacing: 3px; }
+        
+        .form-control-dark {
+            background: rgba(255, 255, 255, 0.1) !important;
+            border: 1px solid rgba(255, 255, 255, 0.2) !important;
+            color: white !important;
+            border-radius: 15px !important;
+            padding: 12px 20px;
+            margin-bottom: 20px;
+        }
+        .form-control-dark::placeholder { color: rgba(255, 255, 255, 0.5); }
+
+        .btn-login {
+            background: var(--main);
+            border: none;
+            color: white;
+            padding: 12px;
+            border-radius: 15px;
+            font-weight: 600;
+            width: 100%;
+            transition: 0.3s;
+            box-shadow: 0 8px 20px rgba(255, 45, 85, 0.3);
+        }
+        .btn-login:hover { transform: translateY(-2px); background: #e6204a; }
+
+        /* --- تنسيق لوحة التحكم --- */
+        #adminPanel { display: none; padding: 20px; animation: fadeIn 0.5s ease; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        
+        .admin-card { background: white; border-radius: 20px; border: none; box-shadow: 0 5px 15px rgba(0,0,0,0.05); margin-bottom: 30px; padding: 25px; }
+        .nav-pills .nav-link { color: #666; border-radius: 12px; padding: 12px 25px; text-align: right; }
+        .nav-pills .nav-link.active { background-color: var(--main); color: white; }
+        .btn-main { background: var(--main); color: white; border-radius: 50px; border: none; padding: 10px 25px; }
+        .inf-img { width: 50px; height: 50px; object-fit: cover; border-radius: 50%; margin-left: 15px; border: 2px solid var(--main); }
+        .post-item { border-bottom: 1px solid #eee; padding: 15px 0; }
+    </style>
+</head>
+<body>
+
+<!-- صفحة تسجيل الدخول -->
+<div id="loginScreen">
+    <div class="login-card">
+        <div class="brand-logo">NAJAF</div>
+        <p class="text-white-50 mb-4 fw-light">CONTROL PANEL ACCESS</p>
+        
+        <form id="loginForm">
+            <input type="text" id="userInput" class="form-control form-control-dark text-center" placeholder="User Name" required>
+            <input type="password" id="passInput" class="form-control form-control-dark text-center" placeholder="Password" required>
+            
+            <button type="submit" class="btn btn-login mt-2">LOGIN TO HUB</button>
+            <p id="errorMsg" class="text-danger small mt-3 d-none">بيانات الدخول غير صحيحة!</p>
+        </form>
+    </div>
+</div>
+
+<!-- لوحة التحكم -->
+<div id="adminPanel" class="container-fluid">
+    <div class="row">
+        <div class="col-lg-2">
+            <div class="admin-card sticky-top" style="top: 20px;">
+                <h4 class="fw-bold mb-4 text-center text-danger">NAJAF HUB</h4>
+                <div class="nav flex-column nav-pills" id="v-pills-tab">
+                    <button class="nav-link active mb-2" data-bs-toggle="pill" data-bs-target="#tab-orders">طلبات الحملات</button>
+                    <button class="nav-link mb-2" data-bs-toggle="pill" data-bs-target="#tab-consults">الاستشارات</button>
+                    <button class="nav-link mb-2" data-bs-toggle="pill" data-bs-target="#tab-blog">المدونة</button>
+                    <button class="nav-link mb-2" data-bs-toggle="pill" data-bs-target="#tab-influencers">المؤثرين</button>
+                    <hr>
+                    <button class="btn btn-sm btn-outline-secondary rounded-pill" onclick="location.reload()">خروج آمن</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-10">
+            <div class="tab-content">
+                <!-- طلبات الحملات -->
+                <div class="tab-pane fade show active" id="tab-orders">
+                    <div class="admin-card">
+                        <h5 class="fw-bold mb-4">الحملات الواردة</h5>
+                        <div class="table-responsive"><table class="table align-middle">
+                            <thead class="table-light"><tr><th>التاريخ</th><th>البراند</th><th>الميزانية</th><th>الرقم</th><th>حذف</th></tr></thead>
+                            <tbody id="leadsTableBody"></tbody>
+                        </table></div>
+                    </div>
+                </div>
+
+                <!-- الاستشارات -->
+                <div class="tab-pane fade" id="tab-consults">
+                    <div class="admin-card">
+                        <h5 class="fw-bold mb-4">الاستشارات</h5>
+                        <div class="table-responsive"><table class="table align-middle">
+                            <thead class="table-light"><tr><th>التاريخ</th><th>الاسم</th><th>المشروع</th><th>واتساب</th><th>حذف</th></tr></thead>
+                            <tbody id="consultsTableBody"></tbody>
+                        </table></div>
+                    </div>
+                </div>
+
+                <!-- المدونة مع ميزة التعديل -->
+                <div class="tab-pane fade" id="tab-blog">
+                    <div class="admin-card mb-4">
+                        <h5 class="fw-bold mb-4" id="blogFormTitle">نشر مقال جديد</h5>
+                        <form id="addBlogForm">
+                            <input type="hidden" id="editPostId">
+                            <div class="mb-3"><input type="text" id="blogTitle" class="form-control rounded-pill" placeholder="عنوان المقال" required></div>
+                            <div class="mb-3"><textarea id="blogContent" class="form-control" rows="4" style="border-radius:15px;" placeholder="المحتوى..." required></textarea></div>
+                            <button type="submit" id="saveBlogBtn" class="btn btn-main">نشر المقال</button>
+                            <button type="button" id="cancelEditBtn" class="btn btn-light rounded-pill d-none ms-2" onclick="resetBlogForm()">إلغاء</button>
+                        </form>
+                    </div>
+                    <div class="admin-card">
+                        <h5 class="fw-bold mb-3">المقالات المنشورة</h5>
+                        <div id="postsList"></div>
+                    </div>
+                </div>
+
+                <!-- المؤثرين -->
+                <div class="tab-pane fade" id="tab-influencers">
+                    <div class="admin-card">
+                        <div class="d-flex justify-content-between mb-4">
+                            <h5 class="fw-bold">المؤثرين</h5>
+                            <button class="btn btn-main btn-sm" data-bs-toggle="modal" data-bs-target="#addInfModal">+ إضافة</button>
+                        </div>
+                        <div class="row g-3" id="influencerGrid"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal المؤثرين -->
+<div class="modal fade" id="addInfModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content p-4 rounded-4 border-0">
+            <h5 class="fw-bold mb-4">إضافة مؤثر جديد</h5>
+            <form id="addInfForm">
+                <div class="mb-3"><input type="text" id="infName" class="form-control rounded-pill" placeholder="الاسم" required></div>
+                <div class="mb-3"><input type="text" id="infTag" class="form-control rounded-pill" placeholder="التخصص" required></div>
+                <div class="mb-3"><input type="url" id="infInsta" class="form-control rounded-pill" placeholder="رابط الإنستغرام" required></div>
+                <div class="mb-3"><label class="form-label small text-muted">صورة المؤثر</label><input type="file" id="infFile" class="form-control" accept="image/*" required></div>
+                <button type="submit" id="infBtn" class="btn btn-main w-100">حفظ ورفع</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getFirestore, collection, addDoc, query, orderBy, serverTimestamp, deleteDoc, doc, updateDoc, onSnapshot, getDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+    import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-storage.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyDBKVEFx4W_6tqZjGhLhwbYJnOuYczC7XY",
+        authDomain: "najf-80141.firebaseapp.com",
+        projectId: "najf-80141",
+        storageBucket: "najf-80141.appspot.com",
+        messagingSenderId: "805715933680",
+        appId: "1:805715933680:web:0b0289304b1554738ec535"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const storage = getStorage(app);
+
+    // --- نظام تسجيل الدخول ---
+    document.getElementById('loginForm').onsubmit = (e) => {
+        e.preventDefault();
+        const u = document.getElementById('userInput').value;
+        const p = document.getElementById('passInput').value;
+        if(u === "admin" && p === "najaf2024") {
+            document.getElementById('loginScreen').style.display = 'none';
+            document.getElementById('adminPanel').style.display = 'block';
+            startSystem();
+        } else {
+            document.getElementById('errorMsg').classList.remove('d-none');
+        }
+    };
+
+    function startSystem() {
+        syncData("leads", "leadsTableBody", (data, id) => `<tr><td>${data.timestamp?.toDate().toLocaleDateString('ar-EG') || '...'}</td><td>${data.brandName}</td><td class="fw-bold text-danger">$${data.budget}</td><td>${data.whatsapp}</td><td><button onclick="deleteItem('leads', '${id}')" class="btn btn-sm text-danger"><i class="bi bi-trash"></i></button></td></tr>`);
+        syncData("consultations", "consultsTableBody", (data, id) => `<tr><td>${data.timestamp?.toDate().toLocaleDateString('ar-EG') || '...'}</td><td>${data.name}</td><td>${data.business}</td><td>${data.whatsapp}</td><td><button onclick="deleteItem('consultations', '${id}')" class="btn btn-sm text-danger"><i class="bi bi-trash"></i></button></td></tr>`);
+        syncPosts();
+        syncInfluencers();
+    }
+
+    window.deleteItem = async (col, id) => { if(confirm("هل أنت متأكد من الحذف؟")) await deleteDoc(doc(db, col, id)); };
+
+    function syncData(colName, elementId, templateFunc) {
+        onSnapshot(query(collection(db, colName), orderBy("timestamp", "desc")), (snap) => {
+            const el = document.getElementById(elementId);
+            el.innerHTML = "";
+            snap.forEach(d => el.innerHTML += templateFunc(d.data(), d.id));
+        });
+    }
+
+    function syncPosts() {
+        onSnapshot(query(collection(db, "posts"), orderBy("timestamp", "desc")), (snap) => {
+            const list = document.getElementById('postsList');
+            list.innerHTML = "";
+            snap.forEach(d => {
+                const p = d.data();
+                list.innerHTML += `<div class="post-item d-flex justify-content-between align-items-center">
+                    <div><h6 class="fw-bold mb-1 text-dark">${p.title}</h6><small class="text-muted">${p.content.substring(0, 40)}...</small></div>
+                    <div>
+                        <button onclick="editPost('${d.id}')" class="btn btn-sm btn-outline-primary me-1"><i class="bi bi-pencil"></i></button>
+                        <button onclick="deleteItem('posts', '${d.id}')" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></button>
+                    </div>
+                </div>`;
+            });
+        });
+    }
+
+    window.editPost = async (id) => {
+        const docSnap = await getDoc(doc(db, "posts", id));
+        const data = docSnap.data();
+        document.getElementById('editPostId').value = id;
+        document.getElementById('blogTitle').value = data.title;
+        document.getElementById('blogContent').value = data.content;
+        document.getElementById('blogFormTitle').innerText = "تعديل المقال الحالي";
+        document.getElementById('saveBlogBtn').innerText = "حفظ التعديلات";
+        document.getElementById('cancelEditBtn').classList.remove('d-none');
+    };
+
+    window.resetBlogForm = () => {
+        document.getElementById('addBlogForm').reset();
+        document.getElementById('editPostId').value = "";
+        document.getElementById('blogFormTitle').innerText = "نشر مقال جديد";
+        document.getElementById('saveBlogBtn').innerText = "نشر المقال";
+        document.getElementById('cancelEditBtn').classList.add('d-none');
+    };
+
+    document.getElementById('addBlogForm').onsubmit = async (e) => {
+        e.preventDefault();
+        const id = document.getElementById('editPostId').value;
+        const data = { title: document.getElementById('blogTitle').value, content: document.getElementById('blogContent').value, timestamp: serverTimestamp() };
+        if(id) await updateDoc(doc(db, "posts", id), data);
+        else await addDoc(collection(db, "posts"), data);
+        resetBlogForm();
+    };
+
+    function syncInfluencers() {
+        onSnapshot(query(collection(db, "influencers"), orderBy("timestamp", "desc")), (snap) => {
+            const grid = document.getElementById('influencerGrid');
+            grid.innerHTML = "";
+            snap.forEach(d => {
+                const inf = d.data();
+                grid.innerHTML += `<div class="col-md-4"><div class="p-3 border rounded-4 bg-white d-flex align-items-center justify-content-between shadow-sm">
+                    <div class="d-flex align-items-center"><img src="${inf.img}" class="inf-img"><div><h6 class="mb-0 fw-bold small">${inf.name}</h6><small class="text-muted" style="font-size:10px">${inf.tag}</small></div></div>
+                    <button onclick="deleteItem('influencers', '${d.id}')" class="btn btn-sm text-danger p-0"><i class="bi bi-trash"></i></button>
+                </div></div>`;
+            });
+        });
+    }
+
+    document.getElementById('addInfForm').onsubmit = async (e) => {
+        e.preventDefault();
+        const btn = document.getElementById('infBtn');
+        const file = document.getElementById('infFile').files[0];
+        btn.disabled = true;
+        try {
+            const storageRef = ref(storage, 'influencers/' + Date.now() + "_" + file.name);
+            const uploadTask = await uploadBytes(storageRef, file);
+            const fileURL = await getDownloadURL(uploadTask.ref);
+            await addDoc(collection(db, "influencers"), { name: document.getElementById('infName').value, tag: document.getElementById('infTag').value, instagram: document.getElementById('infInsta').value, img: fileURL, timestamp: serverTimestamp() });
+            bootstrap.Modal.getInstance(document.getElementById('addInfModal')).hide();
+            e.target.reset();
+        } catch (e) { alert("خطأ في رفع البيانات"); }
+        btn.disabled = false;
+    };
+</script>
+</body>
+</html>
